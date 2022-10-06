@@ -11,3 +11,10 @@
 <template>
   <GamePlay/>
 </template>
+
+<style>
+  body{
+    background-color: gray;
+    overflow: hidden;
+  }
+</style>
