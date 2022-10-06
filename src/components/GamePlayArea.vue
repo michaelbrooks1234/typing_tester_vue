@@ -14,15 +14,22 @@
                 const first = this.currentLetter[0];
                 const second = this.currentLetter[1];
                 if( event.key == words[first].children[second].innerHTML ){
-                    console.log(event.key);
-                    if(second == words[first].children.length-1){
                         words[first].children[second].className = "green";
-                        this.currentLetter[0]++;
-                        this.currentLetter[1] = 0;
-                    }else {
-                        words[first].children[second].className = "green";
-                        this.currentLetter[1]++;
-                    }
+                        if(second == words[first].children.length - 1){
+                            this.currentLetter[0]++;
+                            this.currentLetter[1] = 0;
+                            const first = this.currentLetter[0];
+                            const second = this.currentLetter[1];
+                            words[first].children[second].className += " carrot";
+                        }else{
+                            this.currentLetter[1]++;
+                            const first = this.currentLetter[0];
+                            const second = this.currentLetter[1];
+                            words[first].children[second].className += " carrot";
+                        }
+                }else{
+                    words[first].children[second].className = "red";
+                    words[first].children[second].className += " carrot";
                 } 
             })
         },
@@ -41,13 +48,20 @@
                         const randomElement: String = word_set[Math.floor(Math.random() * word_set.length)];
                         let randomElementSplit: Array<String> = randomElement.split("");
                         for(let j = 0; j < randomElementSplit.length; j++){
-                            randomElementSplit[j] = "<div class='letter'>" + randomElementSplit[j] + "</div>"
+                            if(i == 0 && j == 0){
+                                randomElementSplit[j] = "<div class='letter carrot'>" + randomElementSplit[j] + "</div>"
+                            }else{
+                                randomElementSplit[j] = "<div class='letter'>" + randomElementSplit[j] + "</div>"
+                            }
+                        }
+                        if( i != 150 - 1){
+                            randomElementSplit.push("<div class='letter'> </div>")
                         }
                         const processedElements = "<div class='word'>" + randomElementSplit.join("") + "</div>";
                         typing_test_array.push(processedElements);
                 }
 
-                const typing_test = typing_test_array.join(" ");
+                const typing_test = typing_test_array.join("");
                 return typing_test;
             },
             async setup () {
@@ -78,8 +92,22 @@
 
 <style>
 
+    .letter {
+        color: white;
+    }
+
     .green {
-        color: lime !important;
+        color: lime;
+        background-color: green;
+    }
+
+    .red {
+        color: red;
+        background-color: pink;
+    }
+
+    .carrot {
+        border-left: solid 2px black;
     }
 
     .gameplaycontainer {
@@ -119,7 +147,6 @@
         display: inline;
         height: auto;
         width: 1px;
-        color: white;
     }
 
 </style>
